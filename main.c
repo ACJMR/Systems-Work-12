@@ -2,36 +2,41 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <errno.h>
+#include <string.h>
 
 int main(int argc, char * argv[]){
+  DIR* d;
+  char * s;
+  int size = 0;
+  s = argv[1];
 
-  if (argc > 2){
-    printf("Please enter only one directory\n");
-    return 0;
-  }
   if (argc == 1){
     
   }
-  
-  char * s = argv[1];
-  
-  DIR* d;
-  int size = 0;
-  d = opendir(s);
-  struct dirent *file; 
 
-  while(file = readdir(d)){
+  d = opendir(s);
+  if (errno > 0){
+    printf("Error: %s\n",strerror(errno));
+    return 0;
+  }
+  struct dirent *file;
+
+  printf("-------------  %s  --------------\n",s);
+
+  while((file = readdir(d))){
     if (file->d_type == DT_DIR){
-      printf("subdirectory: %s\n",file->d_name); 
+      printf("Subdirectory: %s\n",file->d_name);
     }
     if (file->d_type == DT_REG){
-      printf("file: %s\n",file->d_name);
+      printf("File: %s\n",file->d_name);
       struct stat stats;
       stat(file->d_name, &stats);
       size += stats.st_size;
     }
   }
   printf("Directory size: %d\n",size);
+  printf("-----------------------------\n");
 
   closedir(d);
 }
