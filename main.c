@@ -3,12 +3,23 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
-int main(){
+int main(int argc, char * argv[]){
+
+  if (argc > 2){
+    printf("Please enter only one directory\n");
+    return 0;
+  }
+  if (argc == 1){
+    
+  }
+  
+  char * s = argv[1];
+  
   DIR* d;
   int size = 0;
-  d = opendir(".");
+  d = opendir(s);
   struct dirent *file; 
-  
+
   while(file = readdir(d)){
     if (file->d_type == DT_DIR){
       printf("subdirectory: %s\n",file->d_name); 
