@@ -12,9 +12,11 @@ int main(int argc, char * argv[]){
   s = argv[1];
 
   if (argc == 1){
-    
+    char s2[256];
+    scanf("%s",s2);
+    s = s2;
   }
-
+  
   d = opendir(s);
   if (errno > 0){
     printf("Error: %s\n",strerror(errno));
@@ -22,11 +24,12 @@ int main(int argc, char * argv[]){
   }
   struct dirent *file;
 
-  printf("-------------  %s  --------------\n",s);
+  printf("Examining directory: %s\n",s);
+  printf("---------------------------\n");
 
   while((file = readdir(d))){
     if (file->d_type == DT_DIR){
-      printf("Subdirectory: %s\n",file->d_name);
+      printf("Directory: %s\n",file->d_name);
     }
     if (file->d_type == DT_REG){
       printf("File: %s\n",file->d_name);
