@@ -13,6 +13,7 @@ int main(int argc, char * argv[]){
 
   if (argc == 1){
     char s2[256];
+	printf("Please enter directory: ");
     scanf("%s",s2);
     s = s2;
   }
